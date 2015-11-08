@@ -1,9 +1,11 @@
 package com.dnbitstudio.libraries.jokeandroidlibrary;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 
 public class JokerActivity extends AppCompatActivity
 {
@@ -14,7 +16,13 @@ public class JokerActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.joker_activity);
+
+        Intent intent = getIntent();
+        String joke = intent.getStringExtra(JOKE_EXTRA_KEY);
+
+        TextView joke_tv = (TextView) findViewById(R.id.joke_tv);
+        joke_tv.setText(joke);
     }
 
     @Override
