@@ -10,7 +10,6 @@ import android.widget.Button;
 import android.widget.ProgressBar;
 
 import com.dnbitstudio.libraries.jokeandroidlibrary.JokerActivity;
-import com.udacity.gradle.builditbigger.free.MainActivityFragment;
 
 
 public class MainActivity extends ActionBarActivity implements MainActivityFragment
