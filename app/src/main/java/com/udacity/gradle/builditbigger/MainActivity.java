@@ -1,14 +1,22 @@
 package com.udacity.gradle.builditbigger;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
+import android.widget.ProgressBar;
+
+import com.dnbitstudio.libraries.jokeandroidlibrary.JokerActivity;
 
 
-public class MainActivity extends ActionBarActivity
+public class MainActivity extends ActionBarActivity implements MainActivityFragment
+        .MainActivityFragmentCallback
 {
+    private ProgressBar spinner;
+    private Button button;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -43,8 +51,26 @@ public class MainActivity extends ActionBarActivity
         return super.onOptionsItemSelected(item);
     }
 
-    public void tellJoke(View view)
+    public void retrieveJoke(Button button, ProgressBar spinner)
     {
+        this.button = button;
+        this.spinner = spinner;
+        button.setVisibility(View.INVISIBLE);
+        spinner.setVisibility(View.VISIBLE);
         new EndpointsAsyncTask(this).execute();
+    }
+
+    public void tellJoke(String result)
+    {
+        Intent intent = new Intent(this, JokerActivity.class);
+        intent.putExtra(JokerActivity.JOKE_EXTRA_KEY, result);
+        startActivity(intent);
+        resetVisibility();
+    }
+
+    public void resetVisibility()
+    {
+        button.setVisibility(View.VISIBLE);
+        spinner.setVisibility(View.INVISIBLE);
     }
 }
