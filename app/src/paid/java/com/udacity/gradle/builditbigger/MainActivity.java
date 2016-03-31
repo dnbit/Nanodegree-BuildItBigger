@@ -25,7 +25,6 @@ public class MainActivity extends ActionBarActivity implements MainActivityFragm
         setContentView(R.layout.activity_main);
     }
 
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu)
     {
@@ -51,12 +50,21 @@ public class MainActivity extends ActionBarActivity implements MainActivityFragm
         return super.onOptionsItemSelected(item);
     }
 
-    public void retrieveJoke(Button button, ProgressBar spinner)
+    public void launchJokeFlow(Button button, ProgressBar spinner)
+    {
+        saveViewsReference(button, spinner);
+        requestJoke();
+    }
+
+    private void saveViewsReference(Button button, ProgressBar spinner)
     {
         this.button = button;
         this.spinner = spinner;
-        button.setVisibility(View.INVISIBLE);
-        spinner.setVisibility(View.VISIBLE);
+    }
+
+    public void requestJoke()
+    {
+        swapVisibility(false);
         new EndpointsAsyncTask(this).execute();
     }
 
@@ -65,12 +73,20 @@ public class MainActivity extends ActionBarActivity implements MainActivityFragm
         Intent intent = new Intent(this, JokerActivity.class);
         intent.putExtra(JokerActivity.JOKE_EXTRA_KEY, result);
         startActivity(intent);
-        resetVisibility();
+        swapVisibility(true);
     }
 
-    public void resetVisibility()
+    public void swapVisibility(boolean visibleButton)
     {
-        button.setVisibility(View.VISIBLE);
-        spinner.setVisibility(View.INVISIBLE);
+        if (visibleButton)
+        {
+            button.setVisibility(View.VISIBLE);
+            spinner.setVisibility(View.INVISIBLE);
+        }
+        else
+        {
+            button.setVisibility(View.INVISIBLE);
+            spinner.setVisibility(View.VISIBLE);
+        }
     }
 }
