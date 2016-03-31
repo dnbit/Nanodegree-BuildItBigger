@@ -21,6 +21,7 @@ public class MainActivity extends ActionBarActivity implements MainActivityFragm
     private InterstitialAd mInterstitialAd;
     private ProgressBar spinner;
     private Button button;
+    private int noInterstitialAdCount = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -73,12 +74,14 @@ public class MainActivity extends ActionBarActivity implements MainActivityFragm
     {
         saveViewsReference(button, spinner);
 
-        if (mInterstitialAd.isLoaded())
+        if (mInterstitialAd.isLoaded() && noInterstitialAdCount >= 3)
         {
+            noInterstitialAdCount = 0;
             mInterstitialAd.show();
         }
         else
         {
+            noInterstitialAdCount++;
             requestJoke();
         }
     }
