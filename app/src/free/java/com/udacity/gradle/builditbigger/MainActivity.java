@@ -10,21 +10,40 @@ import android.widget.Button;
 import android.widget.ProgressBar;
 
 import com.dnbitstudio.libraries.jokeandroidlibrary.JokerActivity;
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.InterstitialAd;
 
 
 public class MainActivity extends ActionBarActivity implements MainActivityFragment
         .MainActivityFragmentCallback
 {
+    private InterstitialAd mInterstitialAd;
     private ProgressBar spinner;
     private Button button;
+    private int noInterstitialAdCount = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-    }
 
+        mInterstitialAd = new InterstitialAd(this);
+        mInterstitialAd.setAdUnitId("ca-app-pub-3940256099942544/1033173712");
+
+        mInterstitialAd.setAdListener(new AdListener()
+        {
+            @Override
+            public void onAdClosed()
+            {
+                requestNewInterstitial();
+                requestJoke();
+            }
+        });
+
+        requestNewInterstitial();
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu)
@@ -51,12 +70,31 @@ public class MainActivity extends ActionBarActivity implements MainActivityFragm
         return super.onOptionsItemSelected(item);
     }
 
-    public void retrieveJoke(Button button, ProgressBar spinner)
+    public void launchJokeFlow(Button button, ProgressBar spinner)
+    {
+        saveViewsReference(button, spinner);
+
+        if (mInterstitialAd.isLoaded() && noInterstitialAdCount >= 3)
+        {
+            noInterstitialAdCount = 0;
+            mInterstitialAd.show();
+        }
+        else
+        {
+            noInterstitialAdCount++;
+            requestJoke();
+        }
+    }
+
+    private void saveViewsReference(Button button, ProgressBar spinner)
     {
         this.button = button;
         this.spinner = spinner;
-        button.setVisibility(View.INVISIBLE);
-        spinner.setVisibility(View.VISIBLE);
+    }
+
+    public void requestJoke()
+    {
+        swapVisibility(false);
         new EndpointsAsyncTask(this).execute();
     }
 
@@ -65,12 +103,29 @@ public class MainActivity extends ActionBarActivity implements MainActivityFragm
         Intent intent = new Intent(this, JokerActivity.class);
         intent.putExtra(JokerActivity.JOKE_EXTRA_KEY, result);
         startActivity(intent);
-        resetVisibility();
+        swapVisibility(true);
     }
 
-    public void resetVisibility()
+    public void swapVisibility(boolean visibleButton)
     {
-        button.setVisibility(View.VISIBLE);
-        spinner.setVisibility(View.INVISIBLE);
+        if (visibleButton)
+        {
+            button.setVisibility(View.VISIBLE);
+            spinner.setVisibility(View.INVISIBLE);
+        }
+        else
+        {
+            button.setVisibility(View.INVISIBLE);
+            spinner.setVisibility(View.VISIBLE);
+        }
+    }
+
+    private void requestNewInterstitial()
+    {
+        AdRequest adRequest = new AdRequest.Builder()
+                .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
+                .build();
+
+        mInterstitialAd.loadAd(adRequest);
     }
 }

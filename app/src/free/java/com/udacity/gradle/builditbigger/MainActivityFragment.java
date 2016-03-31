@@ -38,7 +38,7 @@ public class MainActivityFragment extends Fragment
             @Override
             public void onClick(View view)
             {
-                ((MainActivity) getActivity()).retrieveJoke(button, spinner);
+                ((MainActivity) getActivity()).launchJokeFlow(button, spinner);
             }
         });
 
@@ -55,6 +55,6 @@ public class MainActivityFragment extends Fragment
 
     public interface MainActivityFragmentCallback
     {
-        void retrieveJoke(Button button, ProgressBar spinner);
+        void launchJokeFlow(Button button, ProgressBar spinner);
     }
 }
