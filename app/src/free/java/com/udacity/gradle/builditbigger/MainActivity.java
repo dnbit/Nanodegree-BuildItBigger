@@ -95,7 +95,7 @@ public class MainActivity extends ActionBarActivity implements MainActivityFragm
     public void requestJoke()
     {
         swapVisibility(false);
-        new EndpointsAsyncTask(this).execute();
+        new EndpointAsyncTask(this).execute();
     }
 
     public void tellJoke(String result)
