@@ -11,12 +11,12 @@ import com.google.api.client.googleapis.services.GoogleClientRequestInitializer;
 
 import java.io.IOException;
 
-public class EndpointsAsyncTask extends AsyncTask<Void, Void, String>
+public class EndpointAsyncTask extends AsyncTask<Void, Void, String>
 {
     private static MyApi myApiService = null;
     private Context context;
 
-    public EndpointsAsyncTask(Context context)
+    public EndpointAsyncTask(Context context)
     {
         this.context = context;
     }
