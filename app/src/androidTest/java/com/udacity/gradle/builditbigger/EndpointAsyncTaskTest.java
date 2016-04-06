@@ -3,7 +3,6 @@ package com.udacity.gradle.builditbigger;
 import android.content.Context;
 import android.test.AndroidTestCase;
 
-import org.junit.Test;
 import org.mockito.Mockito;
 
 import java.util.concurrent.ExecutionException;
@@ -12,8 +11,7 @@ import java.util.concurrent.TimeoutException;
 
 public class EndpointAsyncTaskTest extends AndroidTestCase
 {
-    @Test
-    public void EndpointAsyncTask_Call_ReturnsString()
+    public void testEndpointAsyncTask_Call_ReturnsString()
             throws InterruptedException, ExecutionException, TimeoutException
     {
         Context mockContext = Mockito.mock(MainActivity.class);
