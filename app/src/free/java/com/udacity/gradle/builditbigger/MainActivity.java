@@ -1,6 +1,5 @@
 package com.udacity.gradle.builditbigger;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
@@ -100,9 +99,7 @@ public class MainActivity extends ActionBarActivity implements MainActivityFragm
 
     public void tellJoke(String result)
     {
-        Intent intent = new Intent(this, JokerActivity.class);
-        intent.putExtra(JokerActivity.JOKE_EXTRA_KEY, result);
-        startActivity(intent);
+        JokerActivity.launchActivity(this, result);
         swapVisibility(true);
     }
 

@@ -1,5 +1,6 @@
 package com.dnbitstudio.libraries.jokeandroidlibrary;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -9,8 +10,14 @@ import android.widget.TextView;
 
 public class JokerActivity extends AppCompatActivity
 {
-
     public static final String JOKE_EXTRA_KEY = "joke_extra_key";
+
+    public static void launchActivity(Context context, String result)
+    {
+        Intent intent = new Intent(context, JokerActivity.class);
+        intent.putExtra(JokerActivity.JOKE_EXTRA_KEY, result);
+        context.startActivity(intent);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
