@@ -17,3 +17,18 @@ allprojects {
         jcenter()
     }
 }
+
+task connectedCheck(type: GradleBuild) {
+    tasks = [":app:connectedCheck"]
+}
+
+task startServer_RunTests_ShutDown {
+    dependsOn ":backend:appengineRun"
+    project(":backend").afterEvaluate {
+        backend -> backend.extensions.appengine.daemon = true
+    }
+    doLast {
+        connectedCheck.execute()
+    }
+    finalizedBy ":backend:appengineStop"
+}
